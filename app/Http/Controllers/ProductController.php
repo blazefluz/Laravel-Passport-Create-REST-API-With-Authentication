@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use App\Product;
 
 class ProductController extends Controller
@@ -40,6 +41,7 @@ class ProductController extends Controller
 
        $product = new Product();
        $product->name = $request->name;
+       $product->slug = SlugService::createSlug(Product::class, 'slug', $request->name);
        $product->price = $request->price;
 
        if(auth()->user()->products()->save($product)){
